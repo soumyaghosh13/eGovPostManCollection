@@ -1,0 +1,337 @@
+{
+	"variables": [],
+	"info": {
+		"name": "eGov_Asset",
+		"_postman_id": "e2d4777f-1493-e635-a370-8a87489b2f47",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "commons",
+			"description": "",
+			"item": [
+				{
+					"name": "1_Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/user/oauth/token",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic ZWdvdi11c2VyLWNsaWVudDplZ292LXVzZXItc2VjcmV0",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "ramana",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "demo",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "read",
+									"type": "text"
+								},
+								{
+									"key": "tenantId",
+									"value": "default",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FormatTests",
+			"description": "",
+			"item": [
+				{
+					"name": "2_Create_Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"id\", jsonData.Assets[0].id);",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/asset-services/assets/_create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": \"asset-services\",\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": \"create asset\",\n    \"authToken\": \"{{access_token}}\",\n    \"correlationId\": null\n  },\n  \"Asset\": {\n    \"tenantId\": \"default\",\n    \"name\": \"Land_211\",\n    \"department\": {\n      \"id\": 913,\n      \"name\": \"department_department6\",\n      \"code\": \"code_code6\"\n    },\n    \"assetCategory\": {\n      \"tenantId\": \"default\",\n      \"id\": 1,\n      \"name\": \"Land\",\n      \"code\": \"006\",\n      \"assetCategoryType\": \"LAND\",\n      \"parent\": null,\n      \"depreciationMethod\": \"STRAIGHT_LINE_METHOD\",\n      \"isAssetAllow\": false,\n      \"assetAccount\": null,\n      \"accumulatedDepreciationAccount\": null,\n      \"revaluationReserveAccount\": null,\n      \"depreciationExpenseAccount\": null,\n      \"unitOfMeasurement\": null,\n      \"version\": \"1.0\",\n      \"depreciationRate\": null,\n      \"assetFieldsDefination\": [\n        {\n          \"name\": \"Land Register Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Old Land Register Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Re-survey Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Old Survey Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Sub division Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"OSR Land\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Yes,No\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Is it Fenced\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Yes,No\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Land Type\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Hold,Free Hold\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Area of the Land\",\n          \"type\": \"Number\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Unit of Measurement\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"sq. ft.,sq. mt.\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Compensation Paid\",\n          \"type\": \"Number\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Date of Deed Execution\",\n          \"type\": \"Date\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Date of Possession\",\n          \"type\": \"Date\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Index No.\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Department Reference No.\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"From Whom the Deed Taken\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Land usage\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": \"Open Space,Burial ground,Vacant Land,Vested lands,Alienation\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Special Conditions attached to the Holding\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Attach Document\",\n          \"type\": \"File\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Government order number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Collector Order Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Council Resolution Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Award Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        }\n      ]\n    },\n    \"assetDetails\": \"assetDetails_1\",\n    \"modeOfAcquisition\": \"ACQUIRED\",\n    \"status\": \"CAPITALIZED\",\n    \"description\": \"Land Asset Created\",\n    \"dateOfCreation\": \"5648954\",\n    \"locationDetails\": {\n      \"locality\": \"4\",\n      \"zone\": null,\n      \"revenueWard\": null,\n      \"block\": null,\n      \"street\": null,\n      \"electionWard\": null,\n      \"doorNo\": \"door no\",\n      \"pinCode\": null\n    },\n    \"remarks\": null,\n    \"length\": null,\n    \"width\": null,\n    \"totalArea\": null,\n    \"grossValue\": 10000,\n    \"accumulatedDepreciation\": 100.50,\n    \"assetReference\": null,\n    \"version\": null,\n    \"assetAttributes\": [\n      {\n        \"key\": \"East\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"South\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"West\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"North\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"Total Square feet area\",\n        \"type\": \"Number\",\n        \"value\": null\n      }\n    ],\n    \"enableYearWiseDepreciation\": false,\n    \"depreciationRate\": null\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "3_Search_Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/asset-services/assets/_search?tenantId=default&id={{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"asset-services",
+								"assets",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "id",
+									"value": "{{id}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": null,\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": null,\n    \"authToken\": \"{{access_token}}\"\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "4_Market_Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"id\", jsonData.Assets[0].id);",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/asset-services/assets/_create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": \"asset-services\",\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": \"search with from and to values\",\n    \"authToken\": \"{{access_token}}\",\n    \"correlationId\": null,\n    \"userInfo\": {\n      \"id\": \"5\",\n      \"userName\": null,\n      \"name\": null,\n      \"type\": null,\n      \"mobileNumber\": null,\n      \"emailId\": null,\n      \"roles\": null\n    }\n  },\n  \"Asset\": \n        {\n            \"tenantId\": \"default\",\n            \"name\": \"Market_001\",\n            \"department\": {\n                \"id\": 913,\n                \"name\": \"department_department6\",\n                \"code\": \"code_code6\"\n            },\n            \"assetCategory\": {\n            \"tenantId\": \"ap.kurnool\",\n            \"id\": 2,\n            \"name\": \"Market\",\n            \"code\": \"007\",\n            \"assetCategoryType\": \"IMMOVABLE\",\n            \"parent\": null,\n            \"depreciationMethod\": \"STRAIGHT_LINE_METHOD\",\n            \"isAssetAllow\": false,\n            \"assetAccount\": null,\n            \"accumulatedDepreciationAccount\": null,\n            \"revaluationReserveAccount\": null,\n            \"depreciationExpenseAccount\": null,\n            \"unitOfMeasurement\": null,\n            \"version\": \"1.0\",\n            \"depreciationRate\": null,\n            \"assetFieldsDefination\": null\n            },\n            \"assetDetails\": \"assetDetails_1\",\n            \"modeOfAcquisition\": \"ACQUIRED\",\n            \"status\": \"CAPITALIZED\",\n            \"description\": \"Market Asset\",\n            \"dateOfCreation\": 5648954,\n            \"locationDetails\": {\n                \"locality\": 4,\n                \"zone\": null,\n                \"revenueWard\": null,\n                \"block\": null,\n                \"street\": null,\n                \"electionWard\": null,\n                \"doorNo\": \"door no\",\n                \"pinCode\": null\n            },\n            \"remarks\": null,\n            \"length\": null,\n            \"width\": null,\n            \"totalArea\": null,\n            \"grossValue\": 19999,\n            \"accumulatedDepreciation\": 10.5,\n            \"assetReference\": null,\n            \"version\": null,\n            \"assetAttributes\": [\n                {\n                    \"key\": \"East\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"South\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"West\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"North\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"Stall Details\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"Total Square feet area\",\n                    \"type\": \"Number\",\n                    \"value\": null\n                }\n            ],\n            \"enableYearWiseDepreciation\":true,\n      \"depreciationRate\":10.6,\n      \"yearWiseDepreciation\":[\n        {\n          \"depreciationRate\": 11,\n          \"financialYear\":\"2016\",\n          \"usefulLifeInYears\":6\n        },\n        {\n          \"depreciationRate\": 15,\n          \"financialYear\":\"2017\",\n          \"usefulLifeInYears\":11\n        }\n        ]\n        }\n   \n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FunctionalTests",
+			"description": "",
+			"item": [
+				{
+					"name": "2_Create_Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"id\", jsonData.Assets[0].id);",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/asset-services/assets/_create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": \"asset-services\",\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": \"create asset\",\n    \"authToken\": \"{{access_token}}\",\n    \"correlationId\": null\n  },\n  \"Asset\": {\n    \"tenantId\": \"default\",\n    \"name\": \"Land_211\",\n    \"department\": {\n      \"id\": 913,\n      \"name\": \"department_department6\",\n      \"code\": \"code_code6\"\n    },\n    \"assetCategory\": {\n      \"tenantId\": \"default\",\n      \"id\": 1,\n      \"name\": \"Land\",\n      \"code\": \"006\",\n      \"assetCategoryType\": \"LAND\",\n      \"parent\": null,\n      \"depreciationMethod\": \"STRAIGHT_LINE_METHOD\",\n      \"isAssetAllow\": false,\n      \"assetAccount\": null,\n      \"accumulatedDepreciationAccount\": null,\n      \"revaluationReserveAccount\": null,\n      \"depreciationExpenseAccount\": null,\n      \"unitOfMeasurement\": null,\n      \"version\": \"1.0\",\n      \"depreciationRate\": null,\n      \"assetFieldsDefination\": [\n        {\n          \"name\": \"Land Register Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Old Land Register Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Re-survey Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Old Survey Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Sub division Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"OSR Land\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Yes,No\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Is it Fenced\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Yes,No\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Land Type\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"Hold,Free Hold\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Area of the Land\",\n          \"type\": \"Number\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Unit of Measurement\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": \"sq. ft.,sq. mt.\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Compensation Paid\",\n          \"type\": \"Number\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Date of Deed Execution\",\n          \"type\": \"Date\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Date of Possession\",\n          \"type\": \"Date\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Index No.\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Department Reference No.\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"From Whom the Deed Taken\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Land usage\",\n          \"type\": \"Select\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": \"Open Space,Burial ground,Vacant Land,Vested lands,Alienation\",\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Special Conditions attached to the Holding\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Attach Document\",\n          \"type\": \"File\",\n          \"isActive\": true,\n          \"isMandatory\": false,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Government order number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Collector Order Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Council Resolution Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        },\n        {\n          \"name\": \"Award Number\",\n          \"type\": \"Text\",\n          \"isActive\": true,\n          \"isMandatory\": true,\n          \"values\": null,\n          \"localText\": null,\n          \"regExFormate\": null,\n          \"url\": null,\n          \"order\": null,\n          \"columns\": []\n        }\n      ]\n    },\n    \"assetDetails\": \"assetDetails_1\",\n    \"modeOfAcquisition\": \"ACQUIRED\",\n    \"status\": \"CAPITALIZED\",\n    \"description\": \"Land Asset Created\",\n    \"dateOfCreation\": \"5648954\",\n    \"locationDetails\": {\n      \"locality\": \"4\",\n      \"zone\": null,\n      \"revenueWard\": null,\n      \"block\": null,\n      \"street\": null,\n      \"electionWard\": null,\n      \"doorNo\": \"door no\",\n      \"pinCode\": null\n    },\n    \"remarks\": null,\n    \"length\": null,\n    \"width\": null,\n    \"totalArea\": null,\n    \"grossValue\": 10000,\n    \"accumulatedDepreciation\": 100.50,\n    \"assetReference\": null,\n    \"version\": null,\n    \"assetAttributes\": [\n      {\n        \"key\": \"East\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"South\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"West\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"North\",\n        \"type\": \"Text\",\n        \"value\": null\n      },\n      {\n        \"key\": \"Total Square feet area\",\n        \"type\": \"Number\",\n        \"value\": null\n      }\n    ],\n    \"enableYearWiseDepreciation\": false,\n    \"depreciationRate\": null\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "3_Search_Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/asset-services/assets/_search?tenantId=default&id={{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"asset-services",
+								"assets",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "id",
+									"value": "{{id}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": null,\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": null,\n    \"authToken\": \"{{access_token}}\"\n  }\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "4_Market_Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"id\", jsonData.Assets[0].id);",
+									"tests[\"Status code is 201\"] = responseCode.code === 201;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/asset-services/assets/_create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"RequestInfo\": {\n    \"apiId\": \"asset-services\",\n    \"ver\": null,\n    \"ts\": null,\n    \"action\": null,\n    \"did\": null,\n    \"key\": null,\n    \"msgId\": \"search with from and to values\",\n    \"authToken\": \"{{access_token}}\",\n    \"correlationId\": null,\n    \"userInfo\": {\n      \"id\": \"5\",\n      \"userName\": null,\n      \"name\": null,\n      \"type\": null,\n      \"mobileNumber\": null,\n      \"emailId\": null,\n      \"roles\": null\n    }\n  },\n  \"Asset\": \n        {\n            \"tenantId\": \"default\",\n            \"name\": \"Market_001\",\n            \"department\": {\n                \"id\": 913,\n                \"name\": \"department_department6\",\n                \"code\": \"code_code6\"\n            },\n            \"assetCategory\": {\n            \"tenantId\": \"ap.kurnool\",\n            \"id\": 2,\n            \"name\": \"Market\",\n            \"code\": \"007\",\n            \"assetCategoryType\": \"IMMOVABLE\",\n            \"parent\": null,\n            \"depreciationMethod\": \"STRAIGHT_LINE_METHOD\",\n            \"isAssetAllow\": false,\n            \"assetAccount\": null,\n            \"accumulatedDepreciationAccount\": null,\n            \"revaluationReserveAccount\": null,\n            \"depreciationExpenseAccount\": null,\n            \"unitOfMeasurement\": null,\n            \"version\": \"1.0\",\n            \"depreciationRate\": null,\n            \"assetFieldsDefination\": null\n            },\n            \"assetDetails\": \"assetDetails_1\",\n            \"modeOfAcquisition\": \"ACQUIRED\",\n            \"status\": \"CAPITALIZED\",\n            \"description\": \"Market Asset\",\n            \"dateOfCreation\": 5648954,\n            \"locationDetails\": {\n                \"locality\": 4,\n                \"zone\": null,\n                \"revenueWard\": null,\n                \"block\": null,\n                \"street\": null,\n                \"electionWard\": null,\n                \"doorNo\": \"door no\",\n                \"pinCode\": null\n            },\n            \"remarks\": null,\n            \"length\": null,\n            \"width\": null,\n            \"totalArea\": null,\n            \"grossValue\": 19999,\n            \"accumulatedDepreciation\": 10.5,\n            \"assetReference\": null,\n            \"version\": null,\n            \"assetAttributes\": [\n                {\n                    \"key\": \"East\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"South\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"West\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"North\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"Stall Details\",\n                    \"type\": \"Text\",\n                    \"value\": null\n                },\n                {\n                    \"key\": \"Total Square feet area\",\n                    \"type\": \"Number\",\n                    \"value\": null\n                }\n            ],\n            \"enableYearWiseDepreciation\":true,\n      \"depreciationRate\":10.6,\n      \"yearWiseDepreciation\":[\n        {\n          \"depreciationRate\": 11,\n          \"financialYear\":\"2016\",\n          \"usefulLifeInYears\":6\n        },\n        {\n          \"depreciationRate\": 15,\n          \"financialYear\":\"2017\",\n          \"usefulLifeInYears\":11\n        }\n        ]\n        }\n   \n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
