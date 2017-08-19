@@ -1,0 +1,750 @@
+{
+	"variables": [],
+	"info": {
+		"name": "eGov_PropertyTax",
+		"_postman_id": "a7f7afa5-f4e6-5243-3db0-1b8c38e62766",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "commons",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"Username is valid\"] = jsonData.UserRequest.userName.has(request.data[\"username\"]);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Create\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{url}}/user/oauth/token",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic ZWdvdi11c2VyLWNsaWVudDplZ292LXVzZXItc2VjcmV0",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "narasappa",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "demo",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "read",
+									"type": "text"
+								},
+								{
+									"key": "tenantId",
+									"value": "default",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/user/_logout?access_token={{access_token}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"_logout"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\"RequestInfo\":{\"apiId\":\"org.egov.pgr\",\"ver\":\"1.0\",\"ts\":\"13-04-2017 12:13:30\",\"action\":\"POST\",\"did\":\"4354648646\",\"key\":\"xyz\",\"msgId\":\"654654\",\"requesterId\":\"61\",\"authToken\": \"{{access_token}}\"\n }}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FormatTests",
+			"description": "",
+			"item": [
+				{
+					"name": "CreateFormat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(reqBody.usageMasters[0].name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(reqBody.usageMasters[0].nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(reqBody.usageMasters[0].code);",
+									"",
+									"postman.setEnvironmentVariable(\"id\", jsonData.usageMasters[0].id);",
+									"",
+									"postman.setEnvironmentVariable(\"status\", 0);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with name\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var name2 = Math.floor((Math.random() * 1000000));",
+									"",
+									"postman.setEnvironmentVariable(\"name\", \"Test_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"nameLocal\", \"Testing_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"code\", name2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_create?tenantId=default",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_create"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"RequestInfo\": {\n           \"apiId\": \"org.egov.ptis\", \n           \"ver\": \"1.0\",\n           \"ts\": \"20934234234234\",\n           \"action\": \"asd\",\n           \"did\": \"4354648646\", \n           \"key\": \"xyz\",\n           \"msgId\": \"654654\",\n           \"requesterId\": \"61\",\n           \"authToken\": \"{{access_token}}\"\n        },\n   \"usageMasters\": [\n       {\n            \"id\": 0,\n            \"name\": \"{{name}}\",\n            \"code\": \"{{code}}\",\n            \"nameLocal\": \"{{nameLocal}}\",\n            \"description\": \"First test\",\n            \"active\": true,\n            \"isResidential\": true,\n            \"orderNumber\": 0,\n            \"tenantId\" : \"default\",\n            \"auditDetails\" : {\n              \"createdBy\" : \"1\",\n              \"lastModifiedBy\" : \"1\"\n            }\n    }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateFormat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(reqBody.usageMasters[0].name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(reqBody.usageMasters[0].nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(reqBody.usageMasters[0].code);",
+									"",
+									"postman.setEnvironmentVariable(\"id\", jsonData.usageMasters[0].id);",
+									"",
+									"postman.setEnvironmentVariable(\"status\", 0);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with name\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var name2 = Math.floor((Math.random() * 1000000));",
+									"",
+									"postman.setEnvironmentVariable(\"name\", \"Test_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"nameLocal\", \"Testing_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"code\", name2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_create?tenantId=default",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_create"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"RequestInfo\": {\n           \"apiId\": \"org.egov.ptis\", \n           \"ver\": \"1.0\",\n           \"ts\": \"20934234234234\",\n           \"action\": \"asd\",\n           \"did\": \"4354648646\", \n           \"key\": \"xyz\",\n           \"msgId\": \"654654\",\n           \"requesterId\": \"61\",\n           \"authToken\": \"{{access_token}}\"\n        },\n   \"usageMasters\": [\n       {\n            \"id\": 0,\n            \"name\": \"{{name}}\",\n            \"code\": \"{{code}}\",\n            \"nameLocal\": \"{{nameLocal}}\",\n            \"description\": \"First test\",\n            \"active\": true,\n            \"isResidential\": true,\n            \"orderNumber\": 0,\n            \"tenantId\" : \"default\",\n            \"auditDetails\" : {\n              \"createdBy\" : \"1\",\n              \"lastModifiedBy\" : \"1\"\n            }\n    }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SearchFormat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(reqBody.usageMasters[0].name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(reqBody.usageMasters[0].nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(reqBody.usageMasters[0].code);",
+									"",
+									"postman.setEnvironmentVariable(\"id\", jsonData.usageMasters[0].id);",
+									"",
+									"postman.setEnvironmentVariable(\"status\", 0);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with name\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var name2 = Math.floor((Math.random() * 1000000));",
+									"",
+									"postman.setEnvironmentVariable(\"name\", \"Test_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"nameLocal\", \"Testing_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"code\", name2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_create?tenantId=default",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_create"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"RequestInfo\": {\n           \"apiId\": \"org.egov.ptis\", \n           \"ver\": \"1.0\",\n           \"ts\": \"20934234234234\",\n           \"action\": \"asd\",\n           \"did\": \"4354648646\", \n           \"key\": \"xyz\",\n           \"msgId\": \"654654\",\n           \"requesterId\": \"61\",\n           \"authToken\": \"{{access_token}}\"\n        },\n   \"usageMasters\": [\n       {\n            \"id\": 0,\n            \"name\": \"{{name}}\",\n            \"code\": \"{{code}}\",\n            \"nameLocal\": \"{{nameLocal}}\",\n            \"description\": \"First test\",\n            \"active\": true,\n            \"isResidential\": true,\n            \"orderNumber\": 0,\n            \"tenantId\" : \"default\",\n            \"auditDetails\" : {\n              \"createdBy\" : \"1\",\n              \"lastModifiedBy\" : \"1\"\n            }\n    }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FunctionalTests",
+			"description": "",
+			"item": [
+				{
+					"name": "UsageMaster Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"id matches\"] = jsonData.usageMasters[0].id === Number(environment.id);",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(reqBody.usageMasters[0].name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(reqBody.usageMasters[0].nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(reqBody.usageMasters[0].code);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with name\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_update?tenantId=default",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_update"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"RequestInfo\": {\n           \"apiId\": \"org.egov.ptis\", \n           \"ver\": \"1.0\",\n           \"ts\": \"20934234234234\",\n           \"action\": \"asd\",\n           \"did\": \"4354648646\", \n           \"key\": \"xyz\",\n           \"msgId\": \"654654\",\n           \"requesterId\": \"61\",\n           \"authToken\": \"{{access_token}}\"\n        },\n   \"usageMasters\": [\n       {\n            \"id\": {{id}},\n            \"name\": \"{{name}}\",\n            \"code\": \"{{code}}\",\n            \"nameLocal\": \"{{nameLocal}}\",\n            \"description\": \"updated the usage test\",\n            \"active\": true,\n            \"isResidential\": true,\n            \"orderNumber\": 0,\n            \"tenantId\" : \"default\",\n            \"auditDetails\" : {\n              \"createdBy\" : \"1\",\n              \"lastModifiedBy\" : \"1\"\n            }\n    }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UsageMaster Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(reqBody.usageMasters[0].name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(reqBody.usageMasters[0].nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(reqBody.usageMasters[0].code);",
+									"",
+									"postman.setEnvironmentVariable(\"id\", jsonData.usageMasters[0].id);",
+									"",
+									"postman.setEnvironmentVariable(\"status\", 0);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with name\");"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var name2 = Math.floor((Math.random() * 1000000));",
+									"",
+									"postman.setEnvironmentVariable(\"name\", \"Test_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"nameLocal\", \"Testing_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"code\", name2);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_create?tenantId=default",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_create"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"RequestInfo\": {\n           \"apiId\": \"org.egov.ptis\", \n           \"ver\": \"1.0\",\n           \"ts\": \"20934234234234\",\n           \"action\": \"asd\",\n           \"did\": \"4354648646\", \n           \"key\": \"xyz\",\n           \"msgId\": \"654654\",\n           \"requesterId\": \"61\",\n           \"authToken\": \"{{access_token}}\"\n        },\n   \"usageMasters\": [\n       {\n            \"id\": 0,\n            \"name\": \"{{name}}\",\n            \"code\": \"{{code}}\",\n            \"nameLocal\": \"{{nameLocal}}\",\n            \"description\": \"First test\",\n            \"active\": true,\n            \"isResidential\": true,\n            \"orderNumber\": 0,\n            \"tenantId\" : \"default\",\n            \"auditDetails\" : {\n              \"createdBy\" : \"1\",\n              \"lastModifiedBy\" : \"1\"\n            }\n    }\n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UsageMaster Search with name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									" ",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"console.log(jsonData.usageMasters[0].id);",
+									"",
+									"console.log(environment.id);",
+									"",
+									"tests[\"id matches\"] = jsonData.usageMasters[0].id === Number(environment.id);",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(environment.name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(environment.nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(environment.code);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with code\");",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_search?tenantId=default&name={{name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"RequestInfo\": {\n\"apiId\": \"org.egov.ptis\",\n\"ver\": \"1.0\",\n\"ts\": \"20934234234234\",\n\"action\": \"asd\",\n\"did\": \"4354648646\",\n\"key\": \"xyz\",\n\"msgId\": \"654654\",\n\"requesterId\": \"61\",\n\"authToken\": \"{{access_token}}\"\n}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UsageMaster Search with code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									" ",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"id matches\"] = jsonData.usageMasters[0].id === Number(environment.id);",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(environment.name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(environment.nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(environment.code);",
+									"",
+									"postman.setNextRequest(\"UsageMaster Search with nameLocal\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_search?tenantId=default&code={{code}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "code",
+									"value": "{{code}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"RequestInfo\": {\n\"apiId\": \"org.egov.ptis\",\n\"ver\": \"1.0\",\n\"ts\": \"20934234234234\",\n\"action\": \"asd\",\n\"did\": \"4354648646\",\n\"key\": \"xyz\",\n\"msgId\": \"654654\",\n\"requesterId\": \"61\",\n\"authToken\": \"{{access_token}}\"\n}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UsageMaster Search with nameLocal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									" ",
+									"var reqBody = JSON.parse(request.data);",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"tests[\"id matches\"] = jsonData.usageMasters[0].id === Number(environment.id);",
+									"tests[\"name matches\"] = jsonData.usageMasters[0].name.has(environment.name);",
+									"tests[\"nameLocal matches\"] = jsonData.usageMasters[0].nameLocal.has(environment.nameLocal);",
+									"tests[\"code matches\"] = jsonData.usageMasters[0].code.has(environment.code);",
+									"",
+									"var name2 = Math.floor((Math.random() * 1000000));",
+									"",
+									"postman.setEnvironmentVariable(\"name\", \"Test_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"nameLocal\", \"Testing_\"+name2);",
+									"",
+									"postman.setEnvironmentVariable(\"code\", name2);",
+									"",
+									"if(Number(environment.status) === 0){",
+									"    postman.setEnvironmentVariable(\"status\",1);",
+									"    postman.setNextRequest(\"UsageMaster Update\");",
+									"}",
+									"else{",
+									"postman.setNextRequest(\"Logout\");",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "{{url}}/pt-property/property/usages/_search?tenantId=default&nameLocal={{nameLocal}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pt-property",
+								"property",
+								"usages",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "tenantId",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "nameLocal",
+									"value": "{{nameLocal}}",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"RequestInfo\": {\n\"apiId\": \"org.egov.ptis\",\n\"ver\": \"1.0\",\n\"ts\": \"20934234234234\",\n\"action\": \"asd\",\n\"did\": \"4354648646\",\n\"key\": \"xyz\",\n\"msgId\": \"654654\",\n\"requesterId\": \"61\",\n\"authToken\": \"{{access_token}}\"\n}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
